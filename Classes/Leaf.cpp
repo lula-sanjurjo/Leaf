@@ -5,6 +5,7 @@
 
 Leaf::Leaf() :
 _state(Normal),
+_ratio(0),
 _imgDead(CCSprite::create("Leefy-Skeleton.png")),
 _imgHappy(CCSprite::create("Leefy-Happy.png")),
 _imgBurning(CCSprite::create("Leefy-Bump.png")),
@@ -14,6 +15,7 @@ _fire(new Fire())
 	_imgDead->setScale(0.25f);
 	_imgHappy->setScale(0.25f);
 	_imgBurning->setScale(0.25f);
+	_ratio = _imgHappy->getBoundingBox().size.width/2;
 
 	// get visible size of window
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -31,12 +33,17 @@ _fire(new Fire())
 
 	// The leaf starts it's life in a Normal state.
 	setState(Normal);
+	startBurningAfterAWhile();
 }
 
 Leaf::~Leaf()
 {
 	this->removeAllChildren();
 	delete _fire;// ok?
+}
+
+int Leaf::getRatio(){
+	return _ratio;
 }
 
 void Leaf::startFire(){
@@ -49,6 +56,11 @@ void Leaf::burned(){
 
 void Leaf::extinguish() {
 	setState(Normal);
+}
+
+void Leaf::startBurningAfterAWhile(){
+	// After a random amount of seconds, the leaf will start burning.
+	this->runAction(Sequence::create(DelayTime::create(rand() % 10), CallFunc::create(this, callfunc_selector(Leaf::startFire)), nullptr));//deprecated!
 }
 
 void Leaf::setState(LeafState state){
@@ -65,11 +77,13 @@ void Leaf::setState(LeafState state){
 
 		// If the leaf was burning, stop fire.
 		if (_state == Burning){
+			// Stop all the fire actions.
 			_fire->stop(true);
-		}
+			this->stopAllActions();
 
-		// After a random amount of seconds, the leaf will start burning.
-		this->runAction(Sequence::create(DelayTime::create(rand() % 10), CallFunc::create(this, callfunc_selector(Leaf::startFire)), nullptr));//deprecated!
+			// After a random amount of seconds, the leaf will start burning.
+			startBurningAfterAWhile();
+		}
 		break;
 
 	case Burning:

@@ -1,38 +1,45 @@
 #include "Extinguisher.h"
 
-Extinguisher::Extinguisher(Leaf** _leaves, unsigned leavesSize)
-{
+Extinguisher::Extinguisher(Leaf** leaves, unsigned leavesSize){
+	// Save the reference to the leaves.
 	_leavesSize = leavesSize;
-	// TODO: copy the reference to the leaves.
+	_leaves = new Leaf*[leavesSize];
+	for (unsigned i = 0; i < _leavesSize; i++){
+		_leaves[i] = leaves[i];
+	}
 
-	_img = Sprite::create("BlueBlob-Normal.png");
-	_img->setScale(0.5f);
+	// Create the image of the extinguisher
+	Sprite* img = Sprite::create("BlueBlob-Normal.png");
+	img->setScale(0.5f);
+	img->setPosition(0, 0);
+	// Set ratio.
+	_ratio = img->getBoundingBox().size.width/2;
 
-	_img->setPosition(0, 0);
-
-	// add the sprite as a child
-	this->addChild(_img);
+	// Add the sprite as a child
+	this->addChild(img);
 }
 
-Extinguisher::~Extinguisher()
-{
+Extinguisher::~Extinguisher(){
 	this->removeAllChildren();
-	//delete _img; how?
+	delete[_leavesSize] _leaves;
 }
 
-void Extinguisher::moveToCoord(int x, int y) {
+void Extinguisher::moveToCoord(int x, int y){
 	// Move the extinguisher
 	this->setPosition(x, y);
 
 	// Check if it is close enough to extinguish a burning leaf.
 	for (unsigned i = 0; i < _leavesSize; i++){
-//		if (closeEnoughTo(_leaves[i])){
-//			_leaves[i]->extinguish();
-//		}
+		if (closeEnoughTo(_leaves[i])){
+			// It is close! So we can extinguish it.
+			_leaves[i]->extinguish();
+		}
 	}
 }
 
 bool Extinguisher::closeEnoughTo(Leaf* leaf){
-	// TODO: collision if la distancia euclideana entre los dos es menor a los ratios sumados.
-	return false;
+	// Get the distance between extinguisher and leaf.
+	float distance = ccpDistance(leaf->getPosition(), this->getPosition());
+	
+	return ((leaf->getRatio() + _ratio) >= distance);
 }

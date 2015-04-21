@@ -11,17 +11,21 @@ USING_NS_CC;
 class Extinguisher : public Node
 {
 public:
-	Extinguisher(Leaf** _leaves, unsigned leavesSize);
+	Extinguisher(Leaf** leaves, unsigned leavesSize);
 	~Extinguisher();
 
 	void moveToCoord(int x, int y);
 
 private:
 	// Will check the collision with the leaf.
-	// This will be implemented using the ratio of the leaf and the extinguisher
+	// Implemented using the ratio of the leaf and the extinguisher
 	// (we don't need to give more complexity to collision in this case).
 	bool closeEnoughTo(Leaf* leaf);
 
+	// Ratio of the extinguisher. Will be used to handle collisions.
+	int _ratio;
+
+	// Reference to the leaves to be able to check for collisions with them.
 	unsigned _leavesSize;
-	Sprite* _img;
+	Leaf** _leaves;
 };

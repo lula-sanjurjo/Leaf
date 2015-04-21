@@ -11,6 +11,8 @@ public:
 	Leaf();
 	~Leaf();
 
+	int getRatio();
+
 	// If the leaf is burning (and not dead), stop the fire.
 	void extinguish();
 
@@ -20,6 +22,8 @@ private:
 		Burning,
 		Dead
 	};
+
+	void startBurningAfterAWhile();
 
 	// Set the state of the leaf.
 	void setState(LeafState state);
@@ -32,6 +36,9 @@ private:
 
 	// The state of the leaf.
 	LeafState _state;
+
+	// Ratio of the leaf. Will be used to calculate collisions.
+	int _ratio;
 
 	// The different states of the leaf.
 	Sprite* _imgDead;
