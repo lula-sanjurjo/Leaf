@@ -1,13 +1,13 @@
 //
-//  MainScene.h
+//  GameScene.h
 //  ExpJam
 //
 //  Created by Two Tails on 09/12/2014.
 //
 //
 
-#ifndef __MAIN_SCENE_H__
-#define __MAIN_SCENE_H__
+#ifndef __GAME_SCENE_H__
+#define __GAME_SCENE_H__
 
 #include "cocos2d.h"
 #include "Extinguisher.h"
@@ -17,12 +17,12 @@
 #define LEAVES_ROWS		5
 #define LEAVES_AMOUNT	(LEAVES_COLUMNS * LEAVES_ROWS)
 
-class MainScene : public cocos2d::Scene
+class GameScene : public cocos2d::Scene
 {
     typedef cocos2d::Scene Super;
 public:
     // implement the "static create()" method manually
-    CREATE_FUNC(MainScene);
+	CREATE_FUNC(GameScene);
 
     // scene initialisation
     virtual bool init();

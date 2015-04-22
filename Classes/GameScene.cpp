@@ -1,21 +1,20 @@
 //
-//  MainScene.cpp
+//  GameScene.cpp
 //  ExpJam
 //
 //  Created by Two Tails on 09/12/2014.
 //
 //
 
-#include "MainScene.h"
+#include "GameScene.h"
 #include "Leaf.h"
-
 
 USING_NS_CC;
 
-
+// TODO: Change name to "GameScene"
 
 // on "init" you need to initialize your instance
-bool MainScene::init()
+bool GameScene::init()
 {
     // super init first
     if ( !Super::init() )
@@ -54,7 +53,7 @@ bool MainScene::init()
     return true;
 }
 
-void MainScene::onEnter()
+void GameScene::onEnter()
 {
     Super::onEnter();
     
@@ -62,18 +61,18 @@ void MainScene::onEnter()
     if( _keyEventListener == NULL )
     {
         _keyEventListener = EventListenerKeyboard::create();
-        _keyEventListener->onKeyPressed = CC_CALLBACK_2( MainScene::onKeyPressed, this );
-        _keyEventListener->onKeyReleased = CC_CALLBACK_2( MainScene::onKeyReleased, this );
+		_keyEventListener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
+		_keyEventListener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
     }
     
     // create a mouse event listener
     if( _mouseEventListener == NULL )
     {
         _mouseEventListener = EventListenerMouse::create();
-        _mouseEventListener->onMouseMove = CC_CALLBACK_1( MainScene::onMouseMove, this );
-        _mouseEventListener->onMouseUp = CC_CALLBACK_1( MainScene::onMouseUp, this );
-        _mouseEventListener->onMouseDown = CC_CALLBACK_1( MainScene::onMouseDown, this );
-        _mouseEventListener->onMouseScroll = CC_CALLBACK_1( MainScene::onMouseScroll, this );
+		_mouseEventListener->onMouseMove = CC_CALLBACK_1(GameScene::onMouseMove, this);
+		_mouseEventListener->onMouseUp = CC_CALLBACK_1(GameScene::onMouseUp, this);
+		_mouseEventListener->onMouseDown = CC_CALLBACK_1(GameScene::onMouseDown, this);
+		_mouseEventListener->onMouseScroll = CC_CALLBACK_1(GameScene::onMouseScroll, this);
     }
     
     // register event listeners
@@ -84,7 +83,7 @@ void MainScene::onEnter()
     scheduleUpdate();
 }
 
-void MainScene::onExit()
+void GameScene::onExit()
 {
     Super::onExit();
 
@@ -101,7 +100,7 @@ void MainScene::onExit()
     unscheduleUpdate();
 }
 
-void MainScene::update( float delta )
+void GameScene::update(float delta)
 {
     // called once per frame
 //    cocos2d::log( "Update: %f", delta );
@@ -112,12 +111,12 @@ void MainScene::update( float delta )
 #pragma mark - Key Events
 
 
-void MainScene::onKeyPressed( EventKeyboard::KeyCode keyCode, Event* event )
+void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
     cocos2d::log( "Key with keycode %d pressed", keyCode );
 }
 
-void MainScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event )
+void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
     cocos2d::log( "Key with keycode %d released", keyCode );
 }
@@ -126,7 +125,7 @@ void MainScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event )
 #pragma mark - Mouse Events
 
 
-void MainScene::onMouseDown( Event *event )
+void GameScene::onMouseDown(Event *event)
 {
     EventMouse* e = (EventMouse*)event;
     std::string str = "Mouse Down detected, Key: ";
@@ -134,7 +133,7 @@ void MainScene::onMouseDown( Event *event )
     cocos2d::log( "%s", str.c_str() );
 }
 
-void MainScene::onMouseUp( Event *event )
+void GameScene::onMouseUp(Event *event)
 {
     EventMouse* e = (EventMouse*)event;
     std::string str = "Mouse Up detected, Key: ";
@@ -142,7 +141,7 @@ void MainScene::onMouseUp( Event *event )
     cocos2d::log( "%s", str.c_str() );
 }
 
-void MainScene::onMouseMove( Event *event )
+void GameScene::onMouseMove(Event *event)
 {
     EventMouse* e = (EventMouse*)event;
     // Our good guy must move!
@@ -150,7 +149,7 @@ void MainScene::onMouseMove( Event *event )
 	_theGoodGuy->moveToCoord(e->getCursorX(), visibleSize.height + e->getCursorY());
 }
 
-void MainScene::onMouseScroll( Event *event )
+void GameScene::onMouseScroll(Event *event)
 {
     EventMouse* e = (EventMouse*)event;
     std::string str = "Mouse Scroll detected, X: ";
