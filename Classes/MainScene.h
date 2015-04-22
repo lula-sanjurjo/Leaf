@@ -13,7 +13,9 @@
 #include "Extinguisher.h"
 #include "Leaf.h"
 
-#define LEAVES_AMOUNT	15
+#define LEAVES_COLUMNS	6
+#define LEAVES_ROWS		5
+#define LEAVES_AMOUNT	(LEAVES_COLUMNS * LEAVES_ROWS)
 
 class MainScene : public cocos2d::Scene
 {

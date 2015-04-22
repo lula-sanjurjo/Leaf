@@ -8,7 +8,8 @@ USING_NS_CC;
 class Leaf: public Node
 {
 public:
-	Leaf();
+	// Creates a Leaf in the position (x,y).
+	Leaf(int x, int y);
 	~Leaf();
 
 	int getRatio();

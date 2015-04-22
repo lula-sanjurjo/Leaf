@@ -22,11 +22,22 @@ bool MainScene::init()
     {
         return false;
     }
+
+	// Create the position for the leaves.
+	int startAt = 100;
+	int separationX = 150;
+	int separationY = 110;
+	Point positions[LEAVES_AMOUNT];
+	for (int i = 0; i < LEAVES_COLUMNS; i++){
+		for (int j = 0; j < LEAVES_ROWS; j++){
+			positions[i + j * LEAVES_COLUMNS] = Point(startAt + separationX * i, startAt + separationY * j);
+		}
+	}
     
 	// Create the leaves.
 	srand(time(0));
 	for (int i = 0; i < LEAVES_AMOUNT; i++){
-		_leaves[i] = new Leaf();
+		_leaves[i] = new Leaf(positions[i].x, positions[i].y);
 		this->addChild(_leaves[i]);
 	}
     

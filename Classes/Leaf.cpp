@@ -1,9 +1,6 @@
 #include "Leaf.h"
 
-// TODO: have three states for the leaf: {normal, burning, dead},
-// and handle images and burning animation accordingly.
-
-Leaf::Leaf() :
+Leaf::Leaf(int x, int y) :
 _state(Normal),
 _ratio(0),
 _imgDead(CCSprite::create("Leefy-Skeleton.png")),
@@ -15,21 +12,20 @@ _fire(new Fire())
 	_imgDead->setScale(0.25f);
 	_imgHappy->setScale(0.25f);
 	_imgBurning->setScale(0.25f);
-	_ratio = _imgHappy->getBoundingBox().size.width/2;
-
-	// get visible size of window
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	// The leaf will be placed on a random place in the screen.
-	CCPoint pos = ccp(rand() % (int)visibleSize.width, rand() % (int)visibleSize.height);
-	this->setPosition(pos);
-
+	// Add images as childs
 	this->addChild(_imgDead);
 	this->addChild(_imgHappy);
 	this->addChild(_imgBurning);
 	this->addChild(_fire);
-
+	// Hide the images that are not yet shown.
 	_imgDead->setVisible(false);
 	_imgBurning->setVisible(false);
+
+	// Create a ratio that is good for colliding (visually).
+	_ratio = _imgHappy->getBoundingBox().size.width / 2;
+
+	// Set the position.
+	this->setPosition(x, y);
 
 	// The leaf starts it's life in a Normal state.
 	setState(Normal);
