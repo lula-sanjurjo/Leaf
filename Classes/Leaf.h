@@ -14,6 +14,9 @@ public:
 
 	int getRatio();
 
+	// Returns true if the leaf is not dead.
+	bool isAlive();
+
 	// If the leaf is burning (and not dead), stop the fire.
 	void extinguish();
 

@@ -7,6 +7,7 @@
 //
 
 #include "GameScene.h"
+#include "GameOverScene.h"
 #include "Leaf.h"
 
 USING_NS_CC;
@@ -38,8 +39,14 @@ bool GameScene::init()
 	for (int i = 0; i < LEAVES_AMOUNT; i++){
 		_leaves[i] = new Leaf(positions[i].x, positions[i].y);
 		this->addChild(_leaves[i]);
+
+		// Suscribe to the leaf events.
+		auto listener = EventListenerCustom::create("leaf_dies_event", [=](EventCustom* event){
+			this->aLeafDied();
+		});
+		_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, _leaves[i]);
 	}
-    
+ 
 	// Create the extinguisher and give him the leaves references.
 	_theGoodGuy = new Extinguisher(_leaves, LEAVES_AMOUNT);
 	// get visible size of window
@@ -86,6 +93,9 @@ void GameScene::onEnter()
 void GameScene::onExit()
 {
     Super::onExit();
+
+	// Remove event listeners
+	_eventDispatcher->removeAllEventListeners();
 
 	// Release the memory
 	_theGoodGuy->release();//delete _theGoodGuy;?
@@ -155,4 +165,22 @@ void GameScene::onMouseScroll(Event *event)
     std::string str = "Mouse Scroll detected, X: ";
     str += std::to_string(e->getScrollX()) + " Y: " + std::to_string(e->getScrollY());
     cocos2d::log( "%s", str.c_str() );
+}
+
+void GameScene::aLeafDied(){
+	bool allLeavesDead = true;
+
+	// A leaf has died. Check if there is at least one leaf alive.
+	for (int i = 0; i < LEAVES_AMOUNT; i++){
+		if (_leaves[i]->isAlive()){
+			allLeavesDead = false;
+			break;
+		}
+	}
+
+	if (allLeavesDead){
+		// create and run scene. it's an autorelease object
+		auto scene = GameOverScene::create();
+		Director::getInstance()->replaceScene(TransitionFade::create(1.5f, scene));// TODO: DEFINE TRANSITION TIME.
+	}
 }

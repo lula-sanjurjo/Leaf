@@ -42,6 +42,10 @@ int Leaf::getRatio(){
 	return _ratio;
 }
 
+bool Leaf::isAlive(){
+	return (_state != Dead);
+}
+
 void Leaf::startFire(){
 	setState(Burning);
 }
@@ -68,18 +72,20 @@ void Leaf::setState(LeafState state){
 
 	switch (state){
 	case Normal:
-		_imgHappy->setVisible(true);
-		_imgBurning->setVisible(false);
-		_imgDead->setVisible(false);
+		if (_state != Dead){
+			_imgHappy->setVisible(true);
+			_imgBurning->setVisible(false);
+			_imgDead->setVisible(false);
 
-		// If the leaf was burning, stop fire.
-		if (_state == Burning){
-			// Stop all the fire actions.
-			_fire->stop(true);
-			this->stopAllActions();
+			// If the leaf was burning, stop fire.
+			if (_state == Burning){
+				// Stop all the fire actions.
+				_fire->stop(true);
+				this->stopAllActions();
 
-			// After a random amount of seconds, the leaf will start burning.
-			startBurningAfterAWhile();
+				// After a random amount of seconds, the leaf will start burning.
+				startBurningAfterAWhile();
+			}
 		}
 		break;
 
@@ -100,13 +106,21 @@ void Leaf::setState(LeafState state){
 		break;
 
 	case Dead:
-		// The leaf was burned
-		_imgHappy->setVisible(false);
-		_imgBurning->setVisible(false);
-		_imgDead->setVisible(true);
+		if (_state == Burning){
+			// The leaf was burned
+			_imgHappy->setVisible(false);
+			_imgBurning->setVisible(false);
+			_imgDead->setVisible(true);
 
-		// Stop the fire.
-		_fire->stop(false);
+			// Stop the fire.
+			_fire->stop(false);
+
+			// In this case, we need to update the state BEFORE triggering the event.
+			_state = state;
+			// Trigger the event that informs about the leaf is dying.
+			EventCustom event("leaf_dies_event");
+			_eventDispatcher->dispatchEvent(&event);
+		}
 		break;
 	}
 

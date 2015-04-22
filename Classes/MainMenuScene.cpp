@@ -48,7 +48,7 @@ bool MainMenuScene::init()
 }
 
 void MainMenuScene::goToGameScene(Ref* sender){
+	// create and run scene. it's an autorelease object
 	auto scene = GameScene::create();
-
 	Director::getInstance()->replaceScene(TransitionFade::create(1.5f, scene));// TODO: DEFINE TRANSITION TIME.
 }

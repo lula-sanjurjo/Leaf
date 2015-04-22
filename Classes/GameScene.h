@@ -48,8 +48,13 @@ public:
     // mouse scroll
     void onMouseScroll( cocos2d::Event *event );
     
+	// Returns true if the leaf is alive.
+	bool isAlive();
     
 private:
+	// Called when a leaf_dies_event event is received.
+	void aLeafDied();
+
 	Extinguisher* _theGoodGuy;
 	Leaf* _leaves[LEAVES_AMOUNT];
     
