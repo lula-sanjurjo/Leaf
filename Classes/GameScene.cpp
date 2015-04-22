@@ -93,6 +93,8 @@ void GameScene::onExit()
 		delete _leaves[i];
 	}
 
+	this->removeAllChildren();
+
 	// de-register event listeners
 	_eventDispatcher->removeEventListener(_mouseEventListener);
 

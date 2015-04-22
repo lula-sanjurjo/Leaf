@@ -60,7 +60,7 @@ void MainMenuScene::onExit()
 {
 	Super::onExit();
 
-	this->removeAllChildrenWithCleanup(true);
+	this->removeAllChildren();
 }
 
 void MainMenuScene::goToGameScene(Ref* sender){
