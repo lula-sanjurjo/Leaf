@@ -56,7 +56,8 @@ void Leaf::extinguish() {
 
 void Leaf::startBurningAfterAWhile(){
 	// After a random amount of seconds, the leaf will start burning.
-	this->runAction(Sequence::create(DelayTime::create(3.0f + rand() % 10), CallFunc::create(this, callfunc_selector(Leaf::startFire)), nullptr));//deprecated!
+	FiniteTimeAction *callAct = CallFunc::create(CC_CALLBACK_0(Leaf::startFire, this));
+	this->runAction(Sequence::create(DelayTime::create(3.0f + rand() % 10), callAct, nullptr));
 }
 
 void Leaf::setState(LeafState state){
@@ -93,7 +94,8 @@ void Leaf::setState(LeafState state){
 			// Start the fire.
 			_fire->start();
 			// After 5 seconds, the leaf burns completely and dies.
-			this->runAction(Sequence::create(DelayTime::create(5.0f), CallFunc::create(this, callfunc_selector(Leaf::burned)), nullptr));//deprecated!
+			FiniteTimeAction *callAct = CallFunc::create(CC_CALLBACK_0(Leaf::burned, this));
+			this->runAction(Sequence::create(DelayTime::create(5.0f), callAct, nullptr));
 		}
 		break;
 

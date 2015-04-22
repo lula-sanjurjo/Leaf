@@ -40,7 +40,8 @@ void Fire::start(){
 	_imgs[0]->setVisible(true);
 
 	// Create the burning sequence, swapping fire images.
-	this->runAction(RepeatForever::create(Sequence::create(DelayTime::create(0.5f), CallFunc::create(this, callfunc_selector(Fire::swapImgs)), nullptr)));//deprecated!
+	FiniteTimeAction *callAct = CallFunc::create(CC_CALLBACK_0(Fire::swapImgs, this));
+	this->runAction(RepeatForever::create(Sequence::create(DelayTime::create(0.5f), callAct, nullptr)));
 }
 
 void Fire::stop(bool wasExtinguished) {
@@ -55,7 +56,8 @@ void Fire::stop(bool wasExtinguished) {
 	}
 
 	// Show the smoke for a while, and then the fire stops.
-	Sequence* seq = Sequence::create(DelayTime::create(1.0f), CallFunc::create(this, callfunc_selector(Fire::hideSmoke)), nullptr);
+	FiniteTimeAction *callAct = CallFunc::create(CC_CALLBACK_0(Fire::hideSmoke, this));
+	Sequence* seq = Sequence::create(DelayTime::create(1.0f), callAct, nullptr);
 	this->runAction(seq);
 }
 
