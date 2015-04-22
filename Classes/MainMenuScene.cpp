@@ -1,5 +1,16 @@
 #include "MainMenuScene.h"
 #include "GameScene.h"
+#include "Definitions.h"
+
+#define PLAY_BUTTON_SIZE		75
+
+#define TITLE_SIZE				100
+#define TITLE_COLOR				Color3B(0, 255, 0)
+#define TITLE_OFFSET_Y			175
+
+#define INSTRUCTIONS_SIZE		50
+#define INSTRUCTIONS_COLOR		Color3B(15, 145, 145)
+#define INSTRUCTIONS_OFFSET_Y	(- 200)
 
 USING_NS_CC;
 
@@ -18,27 +29,25 @@ bool MainMenuScene::init()
 	// Create the button to start playing.
 	auto playButton = MenuItemImage::create("menu/ButtonGreen.png", "menu/ButtonBlue.png", CC_CALLBACK_1(MainMenuScene::goToGameScene, this));
 	playButton->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
-
-	Label* playButtonLabel = Label::create("Play!", "fonts/Marker Felt.ttf", 75);
+	// Add a label to the button.
+	Label* playButtonLabel = Label::createWithTTF("Play!", "fonts/Marker Felt.ttf", PLAY_BUTTON_SIZE);
 	playButtonLabel->setPosition(playButton->getContentSize().width/2, playButton->getContentSize().height/2);
 	playButton->addChild(playButtonLabel);
-	
-	
-
+	// Create a menu with the button.
 	auto menu = Menu::create(playButton, nullptr);
 	menu->setPosition(Point::ZERO);
 	this->addChild(menu);
 
 	// Add the title of the game.
-	Label* title = Label::create("Welcome to Leaf", "fonts/Marker Felt.ttf", 100);
-	title->setColor(ccc3(0, 255, 0));
-	title->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + 175);
+	Label* title = Label::createWithTTF("Welcome to Leaf", "fonts/Marker Felt.ttf", TITLE_SIZE);
+	title->setColor(TITLE_COLOR);
+	title->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + TITLE_OFFSET_Y);
 	this->addChild(title);
 
 	// Add the instructions of the game.
-	Label* instructions = Label::create("Help our blue friend to take care of the leaves.\nDon't let them burn!", "fonts/Marker Felt.ttf", 50);
-	instructions->setColor(ccc3(15, 145, 145));
-	instructions->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y - 200);
+	Label* instructions = Label::createWithTTF("Help our blue friend to take care of the leaves.\nDon't let them burn!", "fonts/Marker Felt.ttf", INSTRUCTIONS_SIZE);
+	instructions->setColor(INSTRUCTIONS_COLOR);
+	instructions->setPosition(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + INSTRUCTIONS_OFFSET_Y);
 	this->addChild(instructions);
 
 	// TODO: Add some leaves to the scene.
@@ -47,8 +56,15 @@ bool MainMenuScene::init()
 	return true;
 }
 
+void MainMenuScene::onExit()
+{
+	Super::onExit();
+
+	this->removeAllChildrenWithCleanup(true);
+}
+
 void MainMenuScene::goToGameScene(Ref* sender){
 	// create and run scene. it's an autorelease object
 	auto scene = GameScene::create();
-	Director::getInstance()->replaceScene(TransitionFade::create(1.5f, scene));// TODO: DEFINE TRANSITION TIME.
+	Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
 }

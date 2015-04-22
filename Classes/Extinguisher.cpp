@@ -39,7 +39,7 @@ void Extinguisher::moveToCoord(int x, int y){
 
 bool Extinguisher::closeEnoughTo(Leaf* leaf){
 	// Get the distance between extinguisher and leaf.
-	float distance = ccpDistance(leaf->getPosition(), this->getPosition());
+	float distance = leaf->getPosition().getDistance(this->getPosition());
 	
 	return ((leaf->getRatio() + _ratio) >= distance);
 }

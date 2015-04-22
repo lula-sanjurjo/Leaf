@@ -31,22 +31,8 @@ public:
     // scene hidden
     virtual void onExit();
     
-    // called once per frame
-    virtual void update( float delta );
-    
-    // key pressed event
-    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-    // key lifted event
-    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-    
-    // mouse pressed down
-    void onMouseDown( cocos2d::Event *event );
-    // mouse button lifted
-    void onMouseUp( cocos2d::Event *event );
     // mouse moved
     void onMouseMove( cocos2d::Event *event );
-    // mouse scroll
-    void onMouseScroll( cocos2d::Event *event );
     
 	// Returns true if the leaf is alive.
 	bool isAlive();
@@ -57,9 +43,10 @@ private:
 
 	Extinguisher* _theGoodGuy;
 	Leaf* _leaves[LEAVES_AMOUNT];
+	// Event listener for the leaf events.
+	EventListenerCustom* _leafEventListener[LEAVES_AMOUNT];
     
-    cocos2d::EventListenerKeyboard* _keyEventListener = NULL;
-    cocos2d::EventListenerMouse* _mouseEventListener = NULL;
+    EventListenerMouse* _mouseEventListener = NULL;
 };
 
 #endif

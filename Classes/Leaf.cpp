@@ -1,5 +1,8 @@
 #include "Leaf.h"
 
+#define NORMAL_TIME		(3.0f + rand() % 10)
+#define BURNING_TIME	5.0f
+
 Leaf::Leaf(int x, int y) :
 _state(Normal),
 _ratio(0),
@@ -35,7 +38,7 @@ _fire(new Fire())
 Leaf::~Leaf()
 {
 	this->removeAllChildren();
-	delete _fire;// ok?
+	delete _fire;
 }
 
 int Leaf::getRatio(){
@@ -61,7 +64,7 @@ void Leaf::extinguish() {
 void Leaf::startBurningAfterAWhile(){
 	// After a random amount of seconds, the leaf will start burning.
 	FiniteTimeAction *callAct = CallFunc::create(CC_CALLBACK_0(Leaf::startFire, this));
-	this->runAction(Sequence::create(DelayTime::create(3.0f + rand() % 10), callAct, nullptr));
+	this->runAction(Sequence::create(DelayTime::create(NORMAL_TIME), callAct, nullptr));
 }
 
 void Leaf::setState(LeafState state){
@@ -101,7 +104,7 @@ void Leaf::setState(LeafState state){
 			_fire->start();
 			// After 5 seconds, the leaf burns completely and dies.
 			FiniteTimeAction *callAct = CallFunc::create(CC_CALLBACK_0(Leaf::burned, this));
-			this->runAction(Sequence::create(DelayTime::create(5.0f), callAct, nullptr));
+			this->runAction(Sequence::create(DelayTime::create(BURNING_TIME), callAct, nullptr));
 		}
 		break;
 

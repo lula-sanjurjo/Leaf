@@ -12,6 +12,11 @@ public:
 
 	// scene initialisation
 	virtual bool init();
+	// scene hidden
+	virtual void onExit();
+
+private:
+	void goToGameScene(Ref* sender);
 };
 
 #endif

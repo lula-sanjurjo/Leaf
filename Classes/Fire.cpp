@@ -1,5 +1,8 @@
 #include "Fire.h"
 
+#define SMOKE_TIME	1.0f
+#define FIRE_TIME	0.5f
+
 Fire::Fire()
 {
 	// Create the smoke sprites.
@@ -41,7 +44,7 @@ void Fire::start(){
 
 	// Create the burning sequence, swapping fire images.
 	FiniteTimeAction *callAct = CallFunc::create(CC_CALLBACK_0(Fire::swapImgs, this));
-	this->runAction(RepeatForever::create(Sequence::create(DelayTime::create(0.5f), callAct, nullptr)));
+	this->runAction(RepeatForever::create(Sequence::create(DelayTime::create(FIRE_TIME), callAct, nullptr)));
 }
 
 void Fire::stop(bool wasExtinguished) {
@@ -57,7 +60,7 @@ void Fire::stop(bool wasExtinguished) {
 
 	// Show the smoke for a while, and then the fire stops.
 	FiniteTimeAction *callAct = CallFunc::create(CC_CALLBACK_0(Fire::hideSmoke, this));
-	Sequence* seq = Sequence::create(DelayTime::create(1.0f), callAct, nullptr);
+	Sequence* seq = Sequence::create(DelayTime::create(SMOKE_TIME), callAct, nullptr);
 	this->runAction(seq);
 }
 
